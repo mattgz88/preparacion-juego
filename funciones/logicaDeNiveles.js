@@ -21,3 +21,10 @@ function cambiarNivel(){
     nivel++;
     niveles[nivel].setup();
 }
+
+//Funcion para hacer todo lo necesario al momento que perdes un nivel
+//La muestra de estadisticas se hace automaticamente al setear gameOver a true
+function gameOverSet(){
+    gameOver = true;
+    //niveles[nivel].reset();
+}

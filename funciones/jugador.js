@@ -2,11 +2,23 @@ let jugador;
 
 function iniciarJugador(x, y){
     jugador = new Sprite(x, y);
-    jugador.vida = 100;
-    jugador.energia = 140;
-    jugador.speed = 3;
-    jugador.elemento = "fuego";
-    jugador.inmunidad = false;
+    jugador = Object.assign(jugador, {
+        vida: 100,
+        energia: 140,
+        elemento: "fuego",
+        inmunidad: false,
+        tiempoDisparo: 100, //milisegundos
+        puedeDisparar: true,
+        esperaCarga: false,
+        mirandoHacia: 1 //1 derecha, 2 izquierda
+    });
+    
+    jugador.activarPor = (variable, tiempo, val = true)=>{
+        jugador[variable] = val;
+        setTimeout(()=>jugador[variable]=!val, tiempo);
+    }
+
+
     configFuego();
 
     jugador.renderizar = ()=>{
@@ -14,19 +26,21 @@ function iniciarJugador(x, y){
         checkElements();
         controlStatus();
         if(jugador.energia > 0){
-            if(kb.pressing(' ')){
+            if(kb.pressing(' ') && jugador.puedeDisparar){
+                jugador.esperaCarga = true;
                 jugador.disparar();
-                jugador.energia--;
+                jugador.activarPor("puedeDisparar", jugador.tiempoDisparo, false);
             }
         }
+        if(kb.released(' ')){
+             setTimeout(()=>jugador.esperaCarga=false, 500);
+        }
     }
-    jugador.inmudidad1s = ()=>{
-        inmunidad = true;
-        setTimeout(()=>inmunidad=false, 1000);
-    }
+    
 
     setInterval(()=>{
-        if(jugador.energia < 100) jugador.energia++
+        if(jugador.energia < 100 && !jugador.esperaCarga) 
+            jugador.energia++
     },30);
 }
 
@@ -46,36 +60,36 @@ function checkMovement(){
         jugador.direction = 90;
     } else if (kb.pressing('left')) {
         jugador.direction = 180;
+        jugador.mirandoHacia = -1;
     } else if (kb.pressing('right')) {
         jugador.direction = 0;
+        jugador.mirandoHacia = 1;
     } else {
         jugador.speed = 0;
     }
 }
 function controlStatus(){
     if(jugador.vida < 0){
-        jugador.remove();
-        //gameOver();
-    }
-    if(jugador.vida < 0){
-        jugador.remove();
-        //gameOver();
+        gameOverSet();
     }
 }
 
 function configFuego(){
+    jugador.activarPor("inmunidad", 1000); //Ejemplo para inmunidad luego de cambiar de poder
     jugador.elemento = "fuego";
     jugador.energia -= 40;
     
     //jugador.img;
     
     jugador.disparar = ()=>{
+        jugador.energia -= 10;
         let bolaDeFuego;
-        bolaDeFuego = new Sprite(jugador.x+20, jugador.y);
-        bolaDeFuego.d = 5;
+        bolaDeFuego = new Sprite(jugador.x+30*jugador.mirandoHacia, jugador.y);
+        bolaDeFuego.d = 10;
         bolaDeFuego.life = 70;
         bolaDeFuego.color = "red";
-        bolaDeFuego.vel.x = 10;
+        bolaDeFuego.vel.x = 10*jugador.mirandoHacia;
+        jugador.tiempoDisparo = 200;
         /*bolaDeFuego.collides(enemigoAgua, (enemy)=>{
             enemy.vida -= 20;
         })*/
@@ -87,12 +101,14 @@ function configAgua(){
     jugador.energia -= 40;
 
     jugador.disparar = ()=>{
+        jugador.energia --;
         let bolaDeAgua;
-        bolaDeAgua = new Sprite(jugador.x+20, jugador.y);
+        bolaDeAgua = new Sprite(jugador.x+30*jugador.mirandoHacia, jugador.y);
         bolaDeAgua.d = 5;
         bolaDeAgua.life = 70;
         bolaDeAgua.color = "blue";
-        bolaDeAgua.vel.x = 10;
+        bolaDeAgua.vel.x = random(5,10)*jugador.mirandoHacia;
+        jugador.tiempoDisparo = 10;
         /*bolaDeAgua.collides(fuego, (enemy)=>{
             enemy.vida -= 20;
         })*/

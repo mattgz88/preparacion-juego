@@ -1,4 +1,4 @@
-
+let gameOver = false;
 
 function preload(){
     //...
@@ -13,8 +13,14 @@ function setup() {
 
 function draw() {
     clear();
-    niveles[nivel].draw();
-    if(nivel != 0){
-        mostrarPropiedades();
+    if(gameOver == false){
+        niveles[nivel].draw();
+        if(nivel != 0){
+            mostrarPropiedades();
+        }
     }
+    else{
+        mostrarEstadisticas();
+    }
+    
 }

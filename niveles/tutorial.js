@@ -3,18 +3,21 @@ values = [undefined, undefined]
 
 
 reset = () => {
-    suelo.remove();
+    floor.remove();
 }
 
 init = () => {
     background("gray");
     world.gravity.y = 10;
-	iniciarJugador(windowWidth/3, windowHeight-100);
+	iniciarJugador(width/3, height-100);
 	//ball = new Sprite(40, 30, 50);
 
-	floor = new Sprite(windowWidth/2, windowHeight-50, windowWidth, 5, 'static');
-    enemy = new Sprite(windowWidth/2+200, windowHeight-100);
+	floor = new Sprite(width/2, height-50, width, 5, 'static');
+    enemy = new Sprite(width/2+200, height-100);
     enemy.d = 40;
+    enemy.collides(jugador,()=>{
+        jugador.vida-=50;
+    })
 }
 
 code = () => {

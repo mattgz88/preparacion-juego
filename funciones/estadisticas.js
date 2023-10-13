@@ -29,6 +29,10 @@ function mostrarPropiedades(){
 }
 
 function mostrarEstadisticas(){
+    fill(200,100,70)
+    rect(50, 50, width-100, height-100, 20);
+
+    text("Juego terminado", width/2, 100);
     /*
     Codigo para mostar una targeta con los datos del nivel ganado:
     -Boton Siguiente
