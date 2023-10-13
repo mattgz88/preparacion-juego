@@ -1,0 +1,46 @@
+-> Se aplico una logica para poder correr sin problemas diferentes niveles <-
+
+Para crear un nuevo nivel se puede:
+    -Crear el nuevo archivo y importarlo en el html con un <script:src>
+    -Definir 4 variables dentro del archivo con los siguientes datos:
+        - En vars, las variables a utilizar dentro del nivel
+        - En values, sus valores prestablecidos en el mismo orden que las variables (undefined para no declararlo)
+        - En reset, una funcion que limpie todo los sprites para permitir cambiar de nivel
+        - En init, tu funcion setup --> sin Cambas ni objetos ya definidos, solo lo del nivel
+        - En code, tu draw
+    - Al final se crea un contenedor para el nivel que se pushea a la lista de niveles
+
+
+Plantilla de nivel:
+
+//Variables del nivel
+vars = ["boton", "enemigo"] --> variables en arreglo como strings
+values = [undefined, undefined] --> valores predefinidos en orden (undefined para no declararlo) [OBLIGATORIO]
+
+
+//Limpiar nivel
+reset = () => {
+    botonInicio.remove();
+}
+
+//Setup
+init = () => {
+    background("gray");
+    botonInicio = new Sprite(windowWidth/2, 200);
+    botonInicio.width = 150;
+    botonInicio.height = 50;
+    botonInicio.textSize = 15;
+    botonInicio.text = "Iniciar juego !!";
+}
+
+//Draw
+code = () => {
+    background("gray");
+    if (botonInicio.mouse.pressing()){
+        cambiarNivel();
+    }
+    rect(windowWidth/3, 100, 370, 200, 20);
+}
+
+//Agregar nivel
+niveles.push(new claseNivel(init, code, reset, vars, values));
