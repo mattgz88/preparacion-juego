@@ -4,24 +4,22 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Gran bosque de jura</title>
-	<style>
-		html,
-		body {
-			background-color: rgb(255, 255, 255);
-			margin: 0;
-			padding: 0;
-			overscroll-behavior: none;
-		}
-	</style>
+	<title>p5play</title>
+	<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-	<script src="node_modules/p5/lib/p5.js"></script>
-	<script src="node_modules/p5/lib/addons/p5.sound.min.js"></script>
-	<script src="node_modules/p5play/planck.min.js"></script>
-	<script src="node_modules/p5play/p5play.js"></script>
-	<script src="lvl1-1.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/p5@1/lib/p5.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/p5@1/lib/addons/p5.sound.min.js"></script>
+	<script src="https://p5play.org/v3/planck.min.js"></script>
+	<script src="https://p5play.org/v3/p5play.js"></script>
+	
+	<script src="funciones/logicaDeNiveles.js"></script>
+	<script src="index.js"></script>
+	<script src="funciones/jugador.js"></script>
+	<script src="funciones/estadisticas.js"></script>
+	<script src="niveles/menu.js"></script>
+	<script src="niveles/tutorial.js"></script>
 </body>
 
 </html>
