@@ -2,6 +2,7 @@
 let nivel=0;
 let oneTime=true;
 let niveles=[];
+let gana_pierde = "pierde";
 
 let init, reset, code, vars, values;
 
@@ -17,14 +18,31 @@ class claseNivel{
 }
 
 function cambiarNivel(){
-    niveles[nivel].reset();
+    if(nivel == 0){
+        niveles[nivel].reset();
+    }
     nivel++;
     niveles[nivel].setup();
+    tiempoInicial = millis();
+    tiempo = 0;
+    world.gravity.y = 10;
+}
+
+function reiniciarNivel(){
+    niveles[nivel].setup();
+    tiempoInicial = millis();
+    tiempo = duracionDeNiveles;
 }
 
 //Funcion para hacer todo lo necesario al momento que perdes un nivel
 //La muestra de estadisticas se hace automaticamente al setear gameOver a true
-function gameOverSet(){
+function terminarNivel(ganado = false){
+    if(ganado){
+        gana_pierde = "gana";
+    }else{
+        gana_pierde = "pierde";
+    }
     gameOver = true;
-    //niveles[nivel].reset();
+    jugador.remove();
+    niveles[nivel].reset();
 }

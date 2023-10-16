@@ -1,7 +1,8 @@
 let jugador;
 
-function iniciarJugador(x, y){
-    jugador = new Sprite(x, y);
+
+function iniciarJugador(){
+    jugador = new Sprite();
     jugador = Object.assign(jugador, {
         vida: 100,
         energia: 140,
@@ -10,8 +11,10 @@ function iniciarJugador(x, y){
         tiempoDisparo: 100, //milisegundos
         puedeDisparar: true,
         esperaCarga: false,
-        mirandoHacia: 1 //1 derecha, 2 izquierda
+        mirandoHacia: 1, //1 derecha, 2 izquierda
+        vulnerable: ["sdf","gfdg"]
     });
+    jugador.balas = new Group();
     
     jugador.activarPor = (variable, tiempo, val = true)=>{
         jugador[variable] = val;
@@ -25,16 +28,6 @@ function iniciarJugador(x, y){
         checkMovement();
         checkElements();
         controlStatus();
-        if(jugador.energia > 0){
-            if(kb.pressing(' ') && jugador.puedeDisparar){
-                jugador.esperaCarga = true;
-                jugador.disparar();
-                jugador.activarPor("puedeDisparar", jugador.tiempoDisparo, false);
-            }
-        }
-        if(kb.released(' ')){
-             setTimeout(()=>jugador.esperaCarga=false, 500);
-        }
     }
     
 
@@ -70,7 +63,17 @@ function checkMovement(){
 }
 function controlStatus(){
     if(jugador.vida < 0){
-        gameOverSet();
+        terminarNivel();
+    }
+    if(jugador.energia > 0){
+        if(kb.pressing(' ') && jugador.puedeDisparar){
+            jugador.esperaCarga = true;
+            jugador.disparar();
+            jugador.activarPor("puedeDisparar", jugador.tiempoDisparo, false);
+        }
+    }
+    if(kb.released(' ')){
+         setTimeout(()=>jugador.esperaCarga=false, 500);
     }
 }
 
@@ -90,9 +93,13 @@ function configFuego(){
         bolaDeFuego.color = "red";
         bolaDeFuego.vel.x = 10*jugador.mirandoHacia;
         jugador.tiempoDisparo = 200;
-        /*bolaDeFuego.collides(enemigoAgua, (enemy)=>{
-            enemy.vida -= 20;
-        })*/
+        bolaDeFuego.collides(allSprites, (obj)=>{
+            let arr = ["fuego"];
+            console.log(arr);
+            if(arr.includes('fuego')){
+                obj.vida -= 20;
+            }
+        })
     }
 }
 

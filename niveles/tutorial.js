@@ -4,6 +4,7 @@ values = [undefined, undefined]
 
 reset = () => {
     floor.remove();
+    enemy.remove();
 }
 
 init = () => {
@@ -15,9 +16,12 @@ init = () => {
 	floor = new Sprite(width/2, height-50, width, 5, 'static');
     enemy = new Sprite(width/2+200, height-100);
     enemy.d = 40;
+    enemy.vida = 100;
+    enemy.vulnerable = ["fuego"];
     enemy.collides(jugador,()=>{
         jugador.vida-=50;
     })
+    
 }
 
 code = () => {
