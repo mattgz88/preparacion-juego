@@ -25,7 +25,7 @@ function cambiarNivel(){
     niveles[nivel].setup();
     tiempoInicial = millis();
     tiempo = 0;
-    world.gravity.y = 10;
+    world.gravity.y = 12;
 }
 
 function reiniciarNivel(){

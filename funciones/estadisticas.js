@@ -1,7 +1,7 @@
 let tiempo = 0;
 let tiempoInicial = 0;
 let estrellas = 3;
-let duracionDeNiveles = 5000;
+let duracionDeNiveles = 300000;
 
 //setInterval(()=>{tiempo++}, 100);
 
@@ -26,10 +26,10 @@ function mostrarPropiedades(){
     text("Nivel "+ nivel, width / 2, 30);
 
     // Tiempo
-    tiempo = (duracionDeNiveles - (millis() - tiempoInicial))/1000; // Convierte el tiempo en segundos
+    tiempo = (duracionDeNiveles - (millis() - tiempoInicial))/60000; // Convierte el tiempo en segundos
     fill(0);
     textAlign(RIGHT);
-    text("Tiempo: " + nf(tiempo, 1, 1), width - 10, 30);
+    text("Tiempo: " + nf(tiempo, 1, 1) + "min", width - 10, 30);
     
     if(tiempo < (duracionDeNiveles/3)*2){
         estrellas = 2;
@@ -44,7 +44,7 @@ function mostrarPropiedades(){
 }
 
 function mostrarEstadisticas(){
-    background("gray")
+    background("white")
     rectMode(CENTER);
     textAlign(CENTER, CENTER);
     fill(160, 130, 100);
@@ -63,7 +63,6 @@ function mostrarEstadisticas(){
     if(gana_pierde == "pierde"){
         text("Try Again", width / 2 + 80, height / 2 + 80);
     }
-   
 
     if (keyIsPressed === true){
         if(gana_pierde == "pierde"){
