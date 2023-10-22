@@ -51,7 +51,12 @@ function mostrarEstadisticas(){
     rect(width / 2, height / 2, 500, 400, 10);
     fill(0);
     textSize(32);
-    text("Perdiste", width / 2, height / 2 - 90);
+    
+    if(gana_pierde == "pierde"){
+        text("Perdiste", width / 2, height / 2 - 90);
+    }else{
+        text("Ganaste", width / 2, height / 2 - 90);
+    }
     text("Tiempo: " + nf(tiempo, 1, 1) + " seg", width / 2, height / 2);
     text("Estrellas: " + estrellas, width / 2, height / 2 + 40);
     
@@ -61,7 +66,9 @@ function mostrarEstadisticas(){
     fill(255);
     textSize(20);
     if(gana_pierde == "pierde"){
-        text("Try Again", width / 2 + 80, height / 2 + 80);
+        text("Reintentar", width / 2 + 80, height / 2 + 80);
+    }else{
+        text("Siguiente", width / 2 + 80, height / 2 + 80);
     }
 
     if (keyIsPressed === true){
@@ -69,6 +76,7 @@ function mostrarEstadisticas(){
             gameOver = false;
             reiniciarNivel();
         }else{
+            gameOver = false;
             cambiarNivel();
         }
         

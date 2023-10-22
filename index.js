@@ -1,4 +1,5 @@
 let gameOver = false;
+let agua;
 
 function preload(){
     //...
@@ -7,7 +8,8 @@ function preload(){
 function setup() {
     new Canvas();
 
-    background("#f4f")
+    background("#f4f");
+    agua = new Group();
     niveles[0].setup();
 }
 

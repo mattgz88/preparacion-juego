@@ -1,7 +1,22 @@
 let piso;
 
-function setup() {
-    new Canvas(1400, 500);
+vars = ["piso", "ramas","tronco","piedra","boton","roca","salida", "mapa"]
+values = [undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined]
+
+//Limpiar elementos
+reset = () => {
+    piso.remove();
+    ramas.remove();
+    tronco.remove();
+    piedra.remove();
+    boton.remove();
+    roca.remove();
+    salida.remove();
+    mapa.remove();
+}
+
+//Setup del nivel
+init = () => {
     background(200);
 
     piso = new Sprite();
@@ -66,19 +81,22 @@ function setup() {
     //    fireball.overlaps(ramas, quemar);               //ataque de fuego
     //    player.overlaps(salida, NextLevel);             //paris haz tu magia
 
+    function quemar(ramas, fireball) {
+        //cambiar textura
+        setTimeout(abrir, 4000);
+    }
+    function abrir(ramas) {
+        ramas.remove();
+    }
+    
+    function open(roca, boton, tronco) {
+        roca.x = boton.x;
+        player.remove();
+    }
 }
 
-function draw() {}
+//Draw del nivel
+code = () => {}
 
-function quemar(ramas, fireball) {
-    //cambiar textura
-    setTimeout(abrir, 4000);
-}
-function abrir(ramas) {
-    ramas.remove();
-}
-
-function open(roca, boton, tronco) {
-    roca.x = boton.x;
-    player.remove();
-}
+//Añadir nivel
+niveles.push(new claseNivel(init, code, reset, vars, values));

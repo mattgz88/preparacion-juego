@@ -4,9 +4,8 @@ let pasarAgua = true;
 let movIzq = -2;
 let movDer = 2;
 
-
-function iniciarJugador() {
-    jugador = new Sprite();
+function iniciarJugador(x, y) {
+    jugador = new Sprite(x, y);
     jugador = Object.assign(jugador, {
         vida: 100,
         energia: 100,
@@ -15,11 +14,17 @@ function iniciarJugador() {
         tiempoDisparo: 100, //milisegundos
         puedeDisparar: true,
         esperaCarga: false,
+        puedeSaltar: true,
         mirandoHacia: 1, //1 derecha, 2 izquierda
-        vulnerable: ["sdf", "gfdg"]
+        disparosFuego: new Group(),
+        disparosAgua: new Group(),
     });
     jugador.balas = new Group();
 
+    //Multi herramienta para establecer tiempos de activacion
+    //Primero, variable del jugador entre comillas: "puedeDisparar"
+    //Segundo, tiempo para cambiar el valor
+    //Tercero valor inicial antes de invertirlo --> default true
     jugador.activarPor = (variable, tiempo, val = true) => {
         jugador[variable] = val;
         setTimeout(() => jugador[variable] = !val, tiempo);
@@ -52,15 +57,19 @@ function checkElements() {
 
 
 function checkMovement() {
-    if (kb.pressing('up')) {
-        jugador.vel.y = 30;
-    } else if (kb.pressing('left')) {
+    if (kb.pressing('up') && jugador.puedeSaltar) {
+        jugador.vel.y = -5;
+        jugador.activarPor("puedeSaltar", 850, false);
+    } 
+    if (kb.pressing('left')) {
         jugador.vel.x = movIzq;
         jugador.mirandoHacia = -1;
-    } else if (kb.pressing('right')) {
+    } 
+    else if (kb.pressing('right')) {
         jugador.vel.x = movDer;
         jugador.mirandoHacia = 1;
-    } else {
+    } 
+    else {
         jugador.vel.x = 0;
     }
 }
@@ -81,10 +90,12 @@ function controlStatus() {
         setTimeout(() => jugador.esperaCarga = false, 500);
     }
 
-    if(jugador.elemento = "agua" && kb.presses("q")){
+    if(jugador.elemento == "agua" && kb.presses("q")){
         jugador.cambiarForma();
     }
-
+    if(jugador.elemento == "fuego" && jugador.colliding(agua)){
+        jugador.vida -= 5;
+    }
 }
 
 function configFuego() {
@@ -103,13 +114,7 @@ function configFuego() {
         bolaDeFuego.color = "red";
         bolaDeFuego.vel.x = 10 * jugador.mirandoHacia;
         jugador.tiempoDisparo = 200;
-        bolaDeFuego.collides(allSprites, (obj) => {
-            let arr = ["fuego"];
-            console.log(arr);
-            if (arr.includes('fuego')) {
-                obj.vida -= 20;
-            }
-        })
+        jugador.disparosFuego.add(bolaDeFuego);
     }
 }
 
@@ -126,35 +131,28 @@ function configAgua() {
         bolaDeAgua.color = "blue";
         bolaDeAgua.vel.x = random(5, 10) * jugador.mirandoHacia;
         jugador.tiempoDisparo = 10;
-        bolaDeAgua.collides(allSprites, (obj) => {
-            let arr = ["agua"];
-            console.log(arr);
-            if (arr.includes('agua')) {
-                obj.vida -= 10;
-            }
-        })
+        jugador.disparosAgua.add(bolaDeAgua);
+    }
+    
+    jugador.cambiarForma = () =>{ 
+        if (kb.presses('q') && formaOriginal) {
+            // cambios
+            jugador.energia -= 15;
+            jugador.height = 10;
+            jugador.pasarAgua = pasarAgua;
+            movIzq = -7;
+            movDer = 7;
 
-        jugador.cambiarForma = () =>{ 
-            if (kb.presses('q') && formaOriginal) {
-                // cambios
-                jugador.energia -= 15;
-                jugador.height = 10;
-                jugador.pasarAgua = pasarAgua;
-                movIzq = -7;
-                movDer = 7;
-
-                setTimeout(() => {
-                    // original
-                    jugador.height = 50;
-                    formaOriginal = true;
-                    jugador.pasarAgua = false;
-                    movIzq = -2;
-                    movDer = 2;
-                }, 3000);
-                formaOriginal = false;
-            }
+            setTimeout(() => {
+                // original
+                jugador.height = 50;
+                formaOriginal = true;
+                jugador.pasarAgua = false;
+                movIzq = -2;
+                movDer = 2;
+            }, 3000);
+            formaOriginal = false;
         }
-
     }
 }
 function configAire() {

@@ -1,9 +1,26 @@
-let piso, tronco, troncos, pinchos, piedra, power, salida, mapa, water;
+//Variables del nivel
+vars = ["piso", "tronco", "troncos", "pinchos", "piedra", "power", "salida", "mapa"];
+values = [undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined];
 
-function setup() {
-    new Canvas(1200, 500);
+
+//Limpiar nivel
+reset = () => {
+    piso.remove();
+    tronco.remove();
+    troncos.remove();
+    pinchos.remove();
+    piedra.remove();
+    power.remove();
+    salida.remove();
+    mapa.remove();
+    agua.remove();
+}
+
+//Setup
+init = () => {
+    //resizeCanvas(1200, 500);
+    iniciarJugador(width/3, height-100);
     background(200);
-    world.gravity.y = 20;
 
     piso = new Sprite();
 	piso.width = 1500;
@@ -63,28 +80,25 @@ function setup() {
         41
     );
 
-    water = new Group();
-    water.color = "blue";
-    water.mass = 3;
-    water.vel.x = -1;
-    water.life = 120;
+    agua.color = "blue";
+    agua.mass = 3;
+    agua.vel.x = -1;
+    agua.life = 120;
 
     //    player.overlaps(pinchos, GameOver);             //player aun no existe
     //    player.overlaps(salida, NextLevel);             //paris haz tu magia
     //    player.overlaps(power, transformar);            //eliminar power y convertir a elemento aire
-	water.collides(piso, adios);
+	agua.collides(piso, (w)=>w.remove());
 }
 
-function draw() {
-    clear();
-    new water.Sprite(750, 270, 10);
+//Draw
+code = () => {
+    new agua.Sprite(750, 270, 10);
+    jugador.renderizar();
+    if(jugador.collides(power)){
+        terminarNivel(true);
+    }
 }
 
-function adios(water, piso) {
-	water.remove();
-}
-
-function GameOver(player, pinchos) {
-    player.remove();
-
-}
+//Agregar nivel
+niveles.push(new claseNivel(init, code, reset, vars, values));
