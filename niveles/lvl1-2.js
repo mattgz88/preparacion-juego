@@ -100,7 +100,7 @@ code = () => {
         bloque.remove();
     }
     if(jugador.collides(power)){
-        jugador.estado++;
+        estado++;
         power.remove();
     }
 }
