@@ -19,6 +19,18 @@ function mostrarPropiedades(){
     fill(0, 0, 255);
     rect(10, 40, jugador.energia * 2, 20, 4);
 
+    //Elemento
+    let relleno;
+    switch (jugador.elemento){
+        case "fuego": relleno = "red"; break;
+        case "agua": relleno = "blue"; break;
+        case "aire": relleno = "white"; break;
+        case "electricidad": relleno = "purple"; break;
+    }
+    fill(relleno);
+    textSize(20);
+    text(jugador.elemento, 180, 90);
+
     // Título
     textSize(24);
     textAlign(CENTER);
@@ -51,7 +63,7 @@ function mostrarEstadisticas(){
     rect(width / 2, height / 2, 500, 400, 10);
     fill(0);
     textSize(32);
-    
+
     if(gana_pierde == "pierde"){
         text("Perdiste", width / 2, height / 2 - 90);
     }else{
