@@ -8,6 +8,7 @@ function iniciarJugador(x, y) {
         vida: 100,
         energia: 100,
         elemento: "fuego",
+        estado: 0,
         inmunidad: false,
         tiempoDisparo: 100, //milisegundos
         puedeDisparar: true,
@@ -19,7 +20,6 @@ function iniciarJugador(x, y) {
         velocidadX: 2,
         velocidadY: -5,
     });
-    jugador.balas = new Group();
 
     //Multi herramienta para establecer tiempos de activacion
     //Primero, variable del jugador entre comillas: "puedeDisparar"
@@ -51,14 +51,14 @@ function checkElements() {
     if (jugador.energia > 40) {
         if (kb.presses('1')) configFuego();
         else if (kb.presses('2')) configAgua();
-        else if (kb.presses('3')) configAire();
-        else if (kb.presses('4')) configElectricidad();
+        else if (kb.presses('3') && jugador.estado > 0) configAire();
+        else if (kb.presses('4') && jugador.estado > 1) configElectricidad();
     }
 }
 
 
 function checkMovement() {
-    if (kb.pressing('up') && jugador.puedeSaltar) {
+    if (kb.pressing('up') && jugador.puedeSaltar && (jugador.elemento != "aire" || formaOriginal)) {
         jugador.vel.y = jugador.velocidadY;
         jugador.activarPor("puedeSaltar", 850, false);
     }
@@ -96,9 +96,14 @@ function controlStatus() {
     }
     if(jugador.elemento == "aire" && !formaOriginal){
         if (kb.pressing('down')) {
-            jugador.vel.y = jugador.velocidadY/-2;
+            jugador.vel.y = jugador.velocidadY*-1;
+        } else if (kb.pressing('up')) {
+            jugador.vel.y = jugador.velocidadY;
+        }else{
+            jugador.vel.y = 0;
         }
-        jugador.viento.map((e)=>e.moveTowards(jugador, 0.10));
+        jugador.viento.map((e)=>e.moveTowards(jugador, 0.05));
+        //jugador.viento.attractTo(jugador, 0.8);
     }
 
 

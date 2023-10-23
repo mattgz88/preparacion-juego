@@ -1,6 +1,6 @@
 //Variables del nivel con sus valores
-vars = ["botonInicio", "botonNiveles"]
-values = [undefined]
+vars = ["botonInicio", "botonNiveles", "nivelSelec"]
+values = [undefined,undefined, 0]
 
 //Limpiar elementos
 reset = () => {
@@ -11,7 +11,7 @@ reset = () => {
 //Setup del nivel
 init = () => {
     background("gray");
-    
+    nivelSelec = 0;
     
     botonInicio = new Sprite(windowWidth/2, 200);
     botonInicio.width = 150;
@@ -33,7 +33,14 @@ code = () => {
     if (botonInicio.mouse.pressing()){
         cambiarNivel();
     }
+    if (botonNiveles.mouse.presses()){
+        nivelSelec++;
+    }
+    if(botonNiveles.mouse.holding()){
+        cambiarNivel(nivelSelec);
+    }
     rect(windowWidth/3, 100, 370, 200, 20);
+    text(nivelSelec, windowWidth/2, 450)
 }
 
 //Añadir nivel

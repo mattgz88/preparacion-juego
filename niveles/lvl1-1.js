@@ -1,5 +1,5 @@
 //Variables del nivel
-vars = ["piso", "tronco", "troncos", "pinchos", "piedra", "power", "salida", "mapa"];
+vars = ["piso", "tronco", "troncos", "pinchos", "piedra", "salida", "mapa"];
 values = [undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined];
 
 
@@ -10,7 +10,6 @@ reset = () => {
     troncos.remove();
     pinchos.remove();
     piedra.remove();
-    power.remove();
     salida.remove();
     mapa.remove();
     agua.remove();
@@ -19,14 +18,14 @@ reset = () => {
 //Setup
 init = () => {
     //resizeCanvas(1200, 500);
-    iniciarJugador(width/3, height-100);
+    iniciarJugador(50,400);
     background(200);
 
     piso = new Sprite();
 	piso.width = 1500;
-	piso.height = 5;
+	piso.height = 100;
     piso.x = 200;
-    piso.y = 490;
+    piso.y = 535;
     piso.collider = "static";
 
 
@@ -39,7 +38,7 @@ init = () => {
     troncos = new Group();
     troncos.w = 40;
     troncos.h = 40;
-    troncos.tile = "#";
+    troncos.tile = "o";
     troncos.collider = "static";
 
     pinchos = new Group();
@@ -51,7 +50,7 @@ init = () => {
     piedra = new Group();
     piedra.w = 40;
     piedra.h = 40;
-    piedra.tile = "o";
+    piedra.tile = "#";
     piedra.collider = "static";
 
     salida = new Group();
@@ -60,19 +59,16 @@ init = () => {
     salida.tile = "s";
     salida.collider = "static";
 
-    power = new Group();
-    power.r = 10;
-    power.tile = "@";
 
     mapa = new Tiles(
         [
-            ".................oooo",
-            "..................ooo",
-            ".................oooo",
-            ".................oooo",
-            "...........=.....oooo",
-            "...##...=..=........s",
-            "#####^^^=^^=......@.s",
+            ".................####",
+            "..................###",
+            ".................####",
+            ".................####",
+            "...........=.....####",
+            "...oo...=..=........s",
+            "ooooo^^^=^^=........s",
         ],
         50,
         220,
@@ -86,8 +82,8 @@ init = () => {
     agua.life = 120;
 
     //    player.overlaps(pinchos, GameOver);             //player aun no existe
-    //    player.overlaps(salida, NextLevel);             //paris haz tu magia
-    //    player.overlaps(power, transformar);            //eliminar power y convertir a elemento aire
+
+    
 	agua.collides(piso, (w)=>w.remove());
 }
 
@@ -95,10 +91,19 @@ init = () => {
 code = () => {
     new agua.Sprite(750, 270, 10);
     jugador.renderizar();
-    if(jugador.collides(power)){
+    if(jugador.collides(salida)){
         terminarNivel(true);
+    }
+    if(jugador.collides(pinchos)){
+        terminarNivel(false);
     }
 }
 
 //Agregar nivel
 niveles.push(new claseNivel(init, code, reset, vars, values));
+
+
+//fuego= daño a hielo y quemar cosas
+//agua= atravesar agua y daño a fuego
+//aire (se consigue en 1-2)= volar por 3s y mover bloques
+//electricidad (se consigue en 2-2)= activa mecanismos y estunea/paraliza enemigos

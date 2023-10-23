@@ -1,6 +1,6 @@
 let piso;
 
-vars = ["piso", "ramas","tronco","piedra","boton","roca","salida", "mapa"]
+vars = ["piso", "ramas","tronco","piedra","boton","bloque","salida", "mapa", "power"]
 values = [undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined]
 
 //Limpiar elementos
@@ -10,7 +10,8 @@ reset = () => {
     tronco.remove();
     piedra.remove();
     boton.remove();
-    roca.remove();
+    power.remove();
+    bloque.remove();
     salida.remove();
     mapa.remove();
 }
@@ -18,12 +19,13 @@ reset = () => {
 //Setup del nivel
 init = () => {
     background(200);
+    iniciarJugador((width/3)*2, height-200);
 
     piso = new Sprite();
     piso.width = 1500;
     piso.height = 5;
     piso.x = 400;
-    piso.y = 490;
+    piso.y = 570;
     piso.collider = "static";
 
     ramas = new Group();
@@ -31,17 +33,18 @@ init = () => {
     ramas.h = 40;
     ramas.tile = "*";
     ramas.collider = "static";
+    ramas.collides(jugador.disparosFuego, (r,f)=>{r.remove();f.remove();})
 
     tronco = new Group();
     tronco.w = 40;
     tronco.h = 40;
-    tronco.tile = "#";
+    tronco.tile = "o";
     tronco.collider = "static";
 
     piedra = new Group();
     piedra.w = 40;
     piedra.h = 40;
-    piedra.tile = "o";
+    piedra.tile = "#";
     piedra.collider = "static";
 
     boton = new Group();
@@ -50,10 +53,14 @@ init = () => {
     boton.tile = "-";
     boton.collider = "static";
 
-    roca = new Group();
-    roca.w = 40;
-    roca.h = 40;
-    roca.tile = "+";
+    bloque = new Group();
+    bloque.w = 40;
+    bloque.h = 40;
+    bloque.tile = "+";
+
+    power = new Group();
+    power.r = 10;
+    power.tile = "@";
 
     salida = new Group();
     salida.w = 40;
@@ -63,13 +70,15 @@ init = () => {
 
     mapa = new Tiles(
         [
-            ".....................oo",
-            "......+............oooo",
-            "ooooooooo........oooooo",
-            "oooooooo.........oooooo",
-            "ooooooo..........#...oo",
-            "......*..........#....s",
-            "......*........-.#....s",
+            ".....................##",
+            "......+............####",
+            "#########........######",
+            "#########........######",
+            "#########........######",
+            "########.........######",
+            "#######..........o...##",
+            "#.....*..........o....s",
+            "#.@...*........-.o....s",
         ],
         50,
         220,
@@ -77,26 +86,24 @@ init = () => {
         41
     );
 
-    roca.overlaps(boton, open);
-    //    fireball.overlaps(ramas, quemar);               //ataque de fuego
-    //    player.overlaps(salida, NextLevel);             //paris haz tu magia
-
-    function quemar(ramas, fireball) {
-        //cambiar textura
-        setTimeout(abrir, 4000);
-    }
-    function abrir(ramas) {
-        ramas.remove();
-    }
-    
-    function open(roca, boton, tronco) {
-        roca.x = boton.x;
-        player.remove();
-    }
+    bloque.overlaps(boton);
 }
 
 //Draw del nivel
-code = () => {}
+code = () => {
+    jugador.renderizar();
+    if(jugador.collides(salida)){
+        terminarNivel(true);
+    }
+    if(bloque.colliding(boton)){
+        tronco.remove();
+        bloque.remove();
+    }
+    if(jugador.collides(power)){
+        jugador.estado++;
+        power.remove();
+    }
+}
 
 //Añadir nivel
 niveles.push(new claseNivel(init, code, reset, vars, values));

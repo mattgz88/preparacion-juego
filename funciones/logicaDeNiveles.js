@@ -17,11 +17,15 @@ class claseNivel{
     }
 }
 
-function cambiarNivel(){
-    if(nivel == 0){
+function cambiarNivel(num = 0){
+    if(nivel == 0 || num != 0){
         niveles[nivel].reset();
     }
-    nivel++;
+    if(num != 0){
+        nivel = num;
+    }else{
+        nivel++;
+    }
     niveles[nivel].setup();
     tiempoInicial = millis();
     tiempo = 0;
