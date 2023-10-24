@@ -6,13 +6,16 @@ values = [undefined,undefined,undefined,undefined,undefined,undefined,undefined,
 //Limpiar nivel
 reset = () => {
     piso.remove();
+    agua.remove();
+    /*
     tronco.remove();
     troncos.remove();
     pinchos.remove();
     piedra.remove();
     salida.remove();
     mapa.remove();
-    agua.remove();
+    */
+   mapa.remove();
 }
 
 //Setup
@@ -84,6 +87,8 @@ init = () => {
     //    player.overlaps(pinchos, GameOver);             //player aun no existe
 
     
+    jugador.collides(salida, ()=>terminarNivel(true));
+    jugador.collides(pinchos, ()=>terminarNivel(false));
 	agua.collides(piso, (w)=>w.remove());
 }
 
@@ -91,12 +96,6 @@ init = () => {
 code = () => {
     new agua.Sprite(750, 270, 10);
     jugador.renderizar();
-    if(jugador.collides(salida)){
-        terminarNivel(true);
-    }
-    if(jugador.collides(pinchos)){
-        terminarNivel(false);
-    }
 }
 
 //Agregar nivel
