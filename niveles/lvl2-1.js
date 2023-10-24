@@ -37,7 +37,7 @@ reset = () => {
     cadena.remove();
     anclaje.remove();
     plataforma.remove();
-    puente.remove()
+    puente.remove();
     hielo.remove();
     llave.remove();
     pinchos.remove();
@@ -132,6 +132,7 @@ init = () => {
             "#####.....#k..#...##",
             "#####^^^^^##..#...##",
             "############..#...##",
+            "############..#...##",
             "###......!........##",
             "#........!........##",
             "#......########^^^##",
@@ -151,7 +152,7 @@ init = () => {
 //Draw del nivel
 code = () => {
     let desplegado = false;
-    let key = true;
+    let key = false;
 
     jugador.renderizar();
     if (jugador.collides(salida)) {
@@ -166,19 +167,18 @@ code = () => {
     if (jugador.collides(pinchos2)) {
         terminarNivel(false);
     }
-    if(jugador.collides(llave)){
-        key=true;
+    if (jugador.collides(llave)) {
+        key = true;
         key.remove();
     }
-    if(jugador.collides(puerta)&&key==true){
+    if (jugador.collides(puerta) && key == true) {
         puerta.remove();
     }
 
-
     if (
         cadena.collides(jugador.disparosFuego) ||
-        anclaje.collides(jugador.disparosFuego)||
-        kb.presses('p')
+        anclaje.collides(jugador.disparosFuego) ||
+        kb.presses("p")
     ) {
         anclaje.remove();
         plataforma.collider = "dynamic";

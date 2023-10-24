@@ -52,6 +52,13 @@ init = () => {
     background(200);
     iniciarJugador(100, 100);
 
+    escotilla = new Sprite();
+    escotilla.width = 280;
+    escotilla.height = 40;
+    escotilla.x = 340;
+    escotilla.y = 302;
+    escotilla.collider = "static";
+
     piedra = new Group();
     piedra.w = 40;
     piedra.h = 40;
@@ -67,11 +74,7 @@ init = () => {
     boton.w = 10;
     boton.h = 40;
     boton.tile = "|";
-
-    escotilla = new Group();
-    escotilla.w = 40;
-    escotilla.h = 20;
-    escotilla.tile = "=";
+    boton.collider = "static";
 
     erizo = new Group();
     erizo.w = 15;
@@ -120,7 +123,7 @@ init = () => {
         [
             "###........#########",
             "###......+.|########",
-            "=====###############",
+            ".....###############",
             "#.................##",
             "#.......e...e.....##",
             "###############HHH##",
@@ -140,6 +143,21 @@ init = () => {
 //Draw del nivel
 code = () => {
     jugador.renderizar();
+    if (jugador.collides(salida)) {
+        terminarNivel(true);
+    }
+    if (jugador.collides(pinchos)) {
+        terminarNivel(false);
+    }
+    if (jugador.collides(pinchos1)) {
+        terminarNivel(false);
+    }
+    if (jugador.collides(pinchos2)) {
+        terminarNivel(false);
+    }
+    if (bloque.collides(boton)) {
+        escotilla.x -= 200
+    }
 };
 
 //Añadir nivel
