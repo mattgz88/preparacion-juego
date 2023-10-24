@@ -1,12 +1,9 @@
-let ball;
+// ANOTADOR:
 
-function setup() {
-	new Canvas(500, 500);
-
-	ball = new Sprite();
-	ball.diameter = 50;
-}
-
-function draw() {
-	background('gray');
-}
+//	reducir el tamaño jugador 
+//	hacer boss
+//	hacer monstruo de sombra
+//	evitar doble salto en los otros elementos
+//	arreglar modo gas y sacar el disparo de aire
+//	sacar modo plano de agua
+//	repar bloques movibles

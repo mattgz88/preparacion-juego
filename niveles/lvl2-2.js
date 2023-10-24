@@ -1,13 +1,38 @@
-//  nivel 2-2: Se mueve el bloque y se habre la escotilla para luego eliminar a los montruos "e" 
+//  nivel 2-2: Se mueve el bloque y se habre la escotilla para luego eliminar a los montruos "e"
 //  luego se entra en una sala con un golem "E" mientras la pared se cierra lentamente, 3 golpes para matar al golem
 
 //Variables del nivel con sus valores
-vars = ["piso", "piedra", "bloque","boton","escotilla","erizo","golem","hielo","pinchos1","pinchos2","pinchos","power2","salida"]
-values = [undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,]
+vars = [
+    "piedra",
+    "bloque",
+    "boton",
+    "escotilla",
+    "erizo",
+    "golem",
+    "hielo",
+    "pinchos1",
+    "pinchos2",
+    "pinchos",
+    "power2",
+    "salida",
+];
+values = [
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+];
 
 //Limpiar elementos
 reset = () => {
-    piso.remove();
     piedra.remove();
     bloque.remove();
     boton.remove();
@@ -20,19 +45,12 @@ reset = () => {
     pinchos.remove();
     power2.remove();
     salida.remove();
-}
+};
 
 //Setup del nivel
 init = () => {
     background(200);
     iniciarJugador(100, 100);
-
-    piso = new Sprite();
-    piso.width = 1500;
-    piso.height = 5;
-    piso.x = 400;
-    piso.y = 490;
-    piso.collider = "static";
 
     piedra = new Group();
     piedra.w = 40;
@@ -98,36 +116,31 @@ init = () => {
     salida.tile = "s";
     salida.collider = "static";
 
-
-
-
-    
-
-mapa = new Tiles(
-    [   "###........#########",
-        "###......+.|########",
-        "=====###############",
-        "#.................##",
-        "#.......e...e.....##",
-        "###############HHH##",
-        "###>.............<##",
-        "###>..E..........<##",
-        "####HH##############",
-        "###......^^^^^^..@.s",
-        "####################",
-
-    ],
-    50,
-    220,
-    41,
-    41
-);
-}
+    mapa = new Tiles(
+        [
+            "###........#########",
+            "###......+.|########",
+            "=====###############",
+            "#.................##",
+            "#.......e...e.....##",
+            "###############HHH##",
+            "###>.............<##",
+            "###>..E..........<##",
+            "####HH##############",
+            "###......^^^^^^..@.s",
+            "####################",
+        ],
+        50,
+        220,
+        41,
+        41
+    );
+};
 
 //Draw del nivel
 code = () => {
     jugador.renderizar();
-}
+};
 
 //Añadir nivel
 niveles.push(new claseNivel(init, code, reset, vars, values));

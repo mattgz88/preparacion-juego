@@ -19,7 +19,7 @@ reset = () => {
 //Setup del nivel
 init = () => {
     background(200);
-    iniciarJugador((width/3)*2, height-200);
+    iniciarJugador(50, 100);
 
     piso = new Sprite();
     piso.width = 1500;
@@ -100,7 +100,7 @@ code = () => {
         bloque.remove();
     }
     if(jugador.collides(power)){
-        jugador.estado++;
+        estado++;
         power.remove();
     }
 }

@@ -1,6 +1,7 @@
 let jugador;
 let formaOriginal = true; // Variable de bandera para rastrear la forma del sprite
 let pasarAgua = true;
+let estado = 0;
 
 function iniciarJugador(x, y) {
     jugador = new Sprite(x, y);
@@ -8,7 +9,6 @@ function iniciarJugador(x, y) {
         vida: 100,
         energia: 100,
         elemento: "fuego",
-        estado: 0,
         inmunidad: false,
         tiempoDisparo: 100, //milisegundos
         puedeDisparar: true,
@@ -51,8 +51,8 @@ function checkElements() {
     if (jugador.energia > 40) {
         if (kb.presses('1')) configFuego();
         else if (kb.presses('2')) configAgua();
-        else if (kb.presses('3') && jugador.estado > 0) configAire();
-        else if (kb.presses('4') && jugador.estado > 1) configElectricidad();
+        else if (kb.presses('3') && estado > 0) configAire();
+        else if (kb.presses('4') && estado > 1) configElectricidad();
     }
 }
 
