@@ -8,7 +8,6 @@ vars = [
     "boton",
     "escotilla",
     "erizo",
-    "golem",
     "hielo",
     "pinchos1",
     "pinchos2",
@@ -17,7 +16,6 @@ vars = [
     "salida",
 ];
 values = [
-    undefined,
     undefined,
     undefined,
     undefined,
@@ -38,7 +36,6 @@ reset = () => {
     boton.remove();
     escotilla.remove();
     erizo.remove();
-    golem.remove();
     hielo.remove();
     pinchos1.remove();
     pinchos2.remove();
@@ -53,11 +50,10 @@ init = () => {
     iniciarJugador(100, 100);
 
     escotilla = new Sprite();
-    escotilla.width = 280;
+    escotilla.width = 206;
     escotilla.height = 40;
-    escotilla.x = 340;
+    escotilla.x = 133;            //133
     escotilla.y = 302;
-    escotilla.collider = "static";
 
     piedra = new Group();
     piedra.w = 40;
@@ -65,10 +61,13 @@ init = () => {
     piedra.tile = "#";
     piedra.collider = "static";
 
-    bloque = new Group();
+    bloque = new Sprite();
     bloque.w = 40;
     bloque.h = 40;
+    bloque.x = 400;
+    bloque.y = 260;
     bloque.tile = "+";
+    bloque.collider = "kinetic";
 
     boton = new Group();
     boton.w = 10;
@@ -77,19 +76,15 @@ init = () => {
     boton.collider = "static";
 
     erizo = new Group();
-    erizo.w = 15;
-    erizo.h = 15;
+    erizo.w = 25;
+    erizo.h = 25;
     erizo.tile = "e";
-
-    golem = new Group();
-    golem.w = 20;
-    golem.h = 20;
-    golem.tile = "E";
 
     hielo = new Group();
     hielo.w = 40;
     hielo.h = 40;
     hielo.tile = "H";
+    hielo.collider = "static";
 
     pinchos1 = new Group();
     pinchos1.w = 20;
@@ -122,15 +117,15 @@ init = () => {
     mapa = new Tiles(
         [
             "###........#########",
-            "###......+.|########",
+            "###........|########",
             ".....###############",
             "#.................##",
             "#.......e...e.....##",
-            "###############HHH##",
+            "###############HH###",
             "###>.............<##",
-            "###>..E..........<##",
+            "###>..e..........<##",
             "####HH##############",
-            "###......^^^^^^..@.s",
+            "###....^^^..^^^..@.s",
             "####################",
         ],
         50,
@@ -138,6 +133,10 @@ init = () => {
         41,
         41
     );
+
+    hielo.collides(jugador, (h,j)=> jugador.elemento == "fuego" ? h.remove():0);
+    bloque.collided(jugador, (h,j)=> jugador.elemento == "aire" ? bloque.move(40 * jugador.mirandoHacia, 'rigth', 2 ):0); 
+    bloque.overlaps(boton, () => {bloque.remove(); boto.remove(); escotilla.move(100, 'left', 2)})
 };
 
 //Draw del nivel
@@ -155,10 +154,24 @@ code = () => {
     if (jugador.collides(pinchos2)) {
         terminarNivel(false);
     }
-    if (bloque.collides(boton)) {
-        escotilla.x -= 200
+
+    if(jugador.y>260){
+        erizoAtack();
     }
+    if(jugador.collides(power2)){
+        estado++;
+        power2.remove();
+    }
+    
+        
+
+
 };
+
+async function erizoAtack() {
+	await erizo.moveTo(player.x, erizo.y, 3);
+
+}
 
 //Añadir nivel
 niveles.push(new claseNivel(init, code, reset, vars, values));

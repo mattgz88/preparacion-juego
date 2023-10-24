@@ -1,6 +1,6 @@
 let piso;
 
-vars = ["piso", "ramas","tronco","piedra","boton","bloque","salida", "mapa", "power"]
+vars = ["ramas","boton","bloque", "mapa", "power"]
 values = [undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined]
 
 //Limpiar elementos
@@ -35,38 +35,25 @@ init = () => {
     ramas.collider = "static";
     ramas.collides(jugador.disparosFuego, (r,f)=>{r.remove();f.remove();})
 
-    tronco = new Group();
-    tronco.w = 40;
-    tronco.h = 40;
-    tronco.tile = "o";
-    tronco.collider = "static";
-
-    piedra = new Group();
-    piedra.w = 40;
-    piedra.h = 40;
-    piedra.tile = "#";
-    piedra.collider = "static";
-
     boton = new Group();
-    boton.w = 40;
-    boton.h = 20;
+    boton.w = 340;
+    boton.h = 320;
     boton.tile = "-";
     boton.collider = "static";
+    boton.img = 'texturas/bloques/placa de presion 1.png';
+    boton.scale = 0.14;
 
     bloque = new Group();
-    bloque.w = 40;
-    bloque.h = 40;
+    bloque.w = 340;
+    bloque.h = 340;
     bloque.tile = "+";
+    bloque.img = 'texturas/bloques/Bloque de acero.png';
+    bloque.scale = 0.14;
 
     power = new Group();
     power.r = 10;
     power.tile = "@";
-
-    salida = new Group();
-    salida.w = 40;
-    salida.h = 40;
-    salida.tile = "s";
-    salida.collider = "static";
+    power.color = 'cyan'
 
     mapa = new Tiles(
         [
@@ -85,8 +72,6 @@ init = () => {
         41,
         41
     );
-
-    bloque.overlaps(boton);
 }
 
 //Draw del nivel
@@ -96,6 +81,7 @@ code = () => {
         terminarNivel(true);
     }
     if(bloque.colliding(boton)){
+        boton.img = 'texturas/bloques/placa de precion 2.png';
         tronco.remove();
         bloque.remove();
     }

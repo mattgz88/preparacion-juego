@@ -4,7 +4,9 @@ let pasarAgua = true;
 let estado = 0;
 
 function iniciarJugador(x, y) {
-    jugador = new Sprite(x, y);
+    jugador = new Sprite(x, y, 180, 360);
+    jugador.scale = 0.16;
+    jugador.rotationLock = true;
     jugador = Object.assign(jugador, {
         vida: 100,
         energia: 100,
@@ -39,8 +41,6 @@ function iniciarJugador(x, y) {
         controlStatus();
     }
 
-    jugador.cambiarForma = ()=>{};
-
     setInterval(() => {
         if (jugador.energia < 100 && !jugador.esperaCarga)
             jugador.energia++
@@ -52,8 +52,8 @@ function checkElements() {
     if (jugador.energia > 40) {
         if (kb.presses('1')) configFuego();
         else if (kb.presses('2')) configAgua();
-        else if (kb.presses('3') && estado > 0) configAire();
-        else if (kb.presses('4') && estado > 1) configElectricidad();
+        else if (kb.presses('3')) configAire();
+        else if (kb.presses('4')) configElectricidad();
     }
 }
 
@@ -69,9 +69,6 @@ function checkMovement() {
     }
 
     else if(jugador.elemento == "aire" && !formaOriginal){
-        jugador.viento.map((e)=>e.moveTowards(jugador, 0.05));
-        //jugador.viento.attractTo(jugador, 0.8);
-
         if(kb.pressing('down')){
             jugador.vel.y = jugador.velocidadY*-1;
         }else{
@@ -82,13 +79,18 @@ function checkMovement() {
     if (kb.pressing('left')) {
         jugador.vel.x = jugador.velocidadX*-1;
         jugador.mirandoHacia = -1;
+        jugador.mirror.x = true;
+        jugador.img = animaciones_agua[1];
     } 
     else if (kb.pressing('right')) {
         jugador.vel.x = jugador.velocidadX;
         jugador.mirandoHacia = 1;
+        jugador.mirror.x = false;
+        jugador.img = animaciones_agua[1];
     } 
     else {
         jugador.vel.x = 0;
+        jugador.img = spr_jugador_agua;
     }
 }
 
@@ -115,6 +117,9 @@ function controlStatus() {
     if(kb.presses("q")){
         jugador.cambiarForma();
     }
+    if(jugador.elemento == "aire" && !formaOriginal){
+        jugador.viento.map((e)=>e.moveTowards(jugador, 0.05));
+    }
     ////---------------////
 
     if(jugador.elemento == "fuego" && jugador.colliding(agua)){
@@ -129,6 +134,7 @@ function configFuego() {
     jugador.energia -= 20;
     jugador.velocidadX = 2;
     jugador.velocidadY = -5;
+    jugador.img = spr_jugador_fuego;
 
     //jugador.img;
 
@@ -143,6 +149,8 @@ function configFuego() {
         jugador.tiempoDisparo = 200;
         jugador.disparosFuego.add(bolaDeFuego);
     }
+
+    jugador.cambiarForma = ()=>{};
 }
 
 //Configuracion del elemento agua
@@ -151,6 +159,7 @@ function configAgua() {
     jugador.energia -= 20;
     jugador.velocidadX = 2;
     jugador.velocidadY = -5;
+    jugador.img = spr_jugador_agua;
 
     jugador.disparar = () => {
         jugador.energia--;
@@ -188,6 +197,7 @@ function configAire() {
     jugador.energia -= 20;
     jugador.velocidadX = 5;
     jugador.velocidadY = -7;
+    jugador.img = spr_jugador_aire;
 
     jugador.disparar = () => {
         //jugador.energia--;
@@ -209,8 +219,8 @@ function configAire() {
             jugador.viento.d = 5;
             jugador.viento.x = ()=>random(jugador.x-50,jugador.x+50)
             jugador.viento.y = ()=>random(jugador.y-50,jugador.y+50)
-            jugador.viento.life = ()=>random(300,400);
-            //jugador.viento.bounciness = 10;
+            jugador.viento.life = ()=>random(200,300);
+            //jugador.viento.bounciness = 2;
 
             jugador.energia -= 15
             jugador.visible = false
@@ -235,4 +245,5 @@ function configAire() {
 function configElectricidad() {
     jugador.elemento = "electricidad";
     jugador.energia -= 20;
+    jugador.img = spr_jugador_electricidad;
 }

@@ -1,21 +1,13 @@
 //Variables del nivel
-vars = ["piso", "tronco", "troncos", "pinchos", "piedra", "salida", "mapa"];
-values = [undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined];
+vars = [];
+values = [];
 
 
 //Limpiar nivel
 reset = () => {
     piso.remove();
     agua.remove();
-    /*
-    tronco.remove();
-    troncos.remove();
-    pinchos.remove();
-    piedra.remove();
-    salida.remove();
     mapa.remove();
-    */
-   mapa.remove();
 }
 
 //Setup
@@ -32,37 +24,6 @@ init = () => {
     piso.collider = "static";
 
 
-    tronco = new Group();
-    tronco.w = 40;
-    tronco.h = 40;
-    tronco.tile = "=";
-    tronco.collider = "static";
-
-    troncos = new Group();
-    troncos.w = 40;
-    troncos.h = 40;
-    troncos.tile = "o";
-    troncos.collider = "static";
-
-    pinchos = new Group();
-    pinchos.w = 40;
-    pinchos.h = 10;
-    pinchos.tile = "^";
-    pinchos.collider = "static";
-
-    piedra = new Group();
-    piedra.w = 40;
-    piedra.h = 40;
-    piedra.tile = "#";
-    piedra.collider = "static";
-
-    salida = new Group();
-    salida.w = 40;
-    salida.h = 40;
-    salida.tile = "s";
-    salida.collider = "static";
-
-
     mapa = new Tiles(
         [
             ".................####",
@@ -70,7 +31,7 @@ init = () => {
             ".................####",
             ".................####",
             "...........=.....####",
-            "...oo...=..=........s",
+            "...oo...=..=........#",
             "ooooo^^^=^^=........s",
         ],
         50,
