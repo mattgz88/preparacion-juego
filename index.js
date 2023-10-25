@@ -28,6 +28,7 @@ function preload(){
 
     Gran_bosque_de_jura = loadImage('./texturas/bloques/fondo bosque.png');
     Montaña_sombria = loadImage('./texturas/bloques/fondo hielo.png');
+    Cuenca_profunda = loadImage('./texturas/bloques/cueva de ragnard.png');
 }
 
 function setup() {

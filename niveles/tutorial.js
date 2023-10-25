@@ -31,7 +31,7 @@ init = () => {
     enemy.collides(jugador.disparosAgua, (e,f)=>{e.remove();f.remove();})
     while (enemy.length < 3) {
 		let enemys = new enemy.Sprite();
-		enemys.x = (enemy.length * 200)+1000;
+		enemys.x = (enemy.length * 200)+600;
 	}
 }
 

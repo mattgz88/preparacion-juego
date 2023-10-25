@@ -129,13 +129,13 @@ function cargarbloques(){
     pinchos2.tile = ">";
     pinchos2.collider = "static";
     pinchos2.img = 'texturas/bloques/pinchos 2.png';
-    pinchos2.scale = 3;                                      //cambiar a 1
+    pinchos2.scale = 1;                                      //cambiar a 1
 
     luces = new Group();
     luces.w = 20;
     luces.h = 20;
     luces.tile = "+";
-    luces.collider = "static";
+    luces.collider = "none";
     luces.img = 'texturas/bloques/lampara.png';
     luces.scale = 1.2;
 

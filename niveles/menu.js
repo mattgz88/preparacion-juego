@@ -31,15 +31,15 @@ init = () => {
 code = () => {
     background("gray");
     if (botonInicio.mouse.pressing()){
-        cambiarNivel();
-    }
-    if (botonNiveles.mouse.presses()){
-        nivelSelec++;
-    }
-    if(botonNiveles.mouse.holding()){
         cambiarNivel(nivelSelec);
     }
-    rect(windowWidth/3, 100, 370, 200, 20);
+    if (botonNiveles.mouse.presses() && nivelSelec < 6){
+        nivelSelec++;
+    }
+    if(kb.presses('enter')||kb.presses('space')){
+        cambiarNivel(nivelSelec);
+    }
+    rect(windowWidth/3+30, 100, 370, 200, 20);
     text(nivelSelec, windowWidth/2, 450)
 }
 

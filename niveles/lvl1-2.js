@@ -16,7 +16,6 @@ init = () => {
     bloque.h = 30;
     bloque.x = 200;
     bloque.y = 342;
-    bloque.tile = "+";
     bloque.collider = "kinetic";
     bloque.img = "texturas/bloques/bloque_acero.png";
     bloque.scale = 1.3;
@@ -46,11 +45,8 @@ init = () => {
         r.remove();
         f.remove();
     });
-    bloque.collided(jugador, (h, j) =>
-        jugador.elemento == "aire"
-            ? bloque.move(40 * jugador.mirandoHacia, "rigth", 2)
-            : 0
-    );
+
+    
 
     bloque.collided(boton, () => {
         bloque.remove();
@@ -67,13 +63,22 @@ code = () => {
     }
     if (bloque.colliding(boton)) {
         boton.img = "texturas/bloques/placa de precion 2.png";
-        tronco.remove();
+        troncos.remove();
         bloque.remove();
     }
     if (jugador.collides(power)) {
         estado++;
         power.remove();
     }
+    if(bloque.collides(jugador)&&jugador.elemento == "aire"){
+        bloque.collider = "kinetic";
+        bloque.move(40 * jugador.mirandoHacia, "rigth", 2);
+    }else if(jugador.elemento == "agua"||jugador.elemento == "fuego"||jugador.elemento == "electricidad"){
+        bloque.collider = "static";
+    }else{
+        bloque.collider = "dynamic";
+    }
+
 };
 
 //Añadir nivel

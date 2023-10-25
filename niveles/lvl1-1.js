@@ -42,7 +42,7 @@ init = () => {
     agua.color = "blue";
     agua.mass = 3;
     agua.vel.x = -1;
-    agua.life = 45;
+    agua.life = 80;
 
     //    player.overlaps(pinchos, GameOver);             //player aun no existe
 

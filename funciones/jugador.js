@@ -126,6 +126,9 @@ function controlStatus() {
     if (jugador.vida <= 0) {
         terminarNivel();
     }
+    if(jugador.y > height){
+        terminarNivel();
+    }
 
     ////--DISPARO--////
     if (jugador.energia > 0) {
@@ -253,7 +256,7 @@ function configAire() {
             jugador.viento.d = 5;
             jugador.viento.x = ()=>random(jugador.x-50,jugador.x+50)
             jugador.viento.y = ()=>random(jugador.y-50,jugador.y+50)
-            jugador.viento.life = ()=>random(200,300);
+            jugador.viento.life = ()=>random(100,150);
             //jugador.viento.bounciness = 2;
 
             jugador.energia -= 15
@@ -270,8 +273,8 @@ function configAire() {
                 jugador.collider = 'd';
                 formaOriginal = true;
                 jugador.rotationLock = true;
-                jugador.velocidadX = 2;
-                jugador.velocidadY = -5;
+                jugador.velocidadX = 5;
+                jugador.velocidadY = -7;
             }, 2000);
             formaOriginal = false;
         }
@@ -282,6 +285,8 @@ function configAire() {
 function configElectricidad() {
     jugador.elemento = "electricidad";
     jugador.energia -= 20;
+    jugador.velocidadX = 3;
+    jugador.velocidadY = -5;
     jugador.activarPor("usarAnimacion", 800, false);
     ponerAnimacion(3);
 

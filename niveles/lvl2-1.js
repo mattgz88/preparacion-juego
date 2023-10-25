@@ -9,11 +9,12 @@ reset = () => {
     plataforma.remove();
     puente.remove();
     mapa.remove();
+    hoyo.remove();
 };
 
 //Setup del nivel
 init = () => {
-    background(200);
+
     iniciarJugador(100, 420);
 
     plataforma = new Sprite();
@@ -44,7 +45,7 @@ init = () => {
             "&.......m...&&&&&&&&&",
             "&...........H......&&",
             "&...........H......&&",
-            "&..-........H......&&",
+            "&...-.......H......&&",
             "&&&&&.......&&&&...&&",
             "&&&&&&.....&k..&...&&",
             "&&&&&&^^^^^&&..&...&&",
@@ -74,7 +75,9 @@ init = () => {
 
 //Draw del nivel
 code = () => {
+    background(Montaña_sombria);
     let desplegado = false;
+    camera.x = jugador.x;
 
     jugador.renderizar();
     if (jugador.collides(hoyo)) {

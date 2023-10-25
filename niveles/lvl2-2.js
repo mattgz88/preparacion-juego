@@ -38,19 +38,21 @@ init = () => {
     escotilla.height = 40;
     escotilla.x = 133;            
     escotilla.y = 302;
-//    escotilla.img = 'texturas/bloques/escotilla.png';
-    escotilla.scale = 1;
+    escotilla.img = 'texturas/bloques/escotilla.png';
+    escotilla.scale = 1.15;
+    escotilla.collider = "k";
 
     bloque = new Sprite();
-    bloque.w = 40;
-    bloque.h = 40;
+    bloque.w = 30;
+    bloque.h = 30;
     bloque.x = 400;
     bloque.y = 260;
-    bloque.tile = "+";
     bloque.collider = "kinetic";
-    bloque.img = 'texturas/bloques/bloque_acero.png';
-    bloque.scale = 1.4;
+    bloque.img = "texturas/bloques/bloque_acero.png";
+    bloque.scale = 1.3;
 
+    bloque.x = 400;
+    bloque.y = 260;
     boton2 = new Group();
     boton2.w = 10;
     boton2.h = 40;
@@ -64,7 +66,7 @@ init = () => {
     mapa = new Tiles(
         [
             "&&&........&&&&&&&&&",
-            "&&&......+.B&&&&&&&&",
+            "&&&........B&&&&&&&&",
             ".....&&&&&&&&&&&&&&&",
             "&.................&&",
             "&...........e.....&&",
@@ -82,11 +84,11 @@ init = () => {
     );
 
     hielo.collides(jugador, (h,j)=> jugador.elemento == "fuego" ? h.remove():0);
-    bloque.collided(jugador, (h,j)=> jugador.elemento == "aire" ? bloque.move(40 * jugador.mirandoHacia, 'rigth', 2 ):0); 
-    bloque.overlaps(boton2, () => {bloque.remove(); escotilla.move(100, 'left', 2)})
+   // bloque.collided(jugador, (h,j)=> jugador.elemento == "aire" ? bloque.move(40 * jugador.mirandoHacia, 'rigth', 2 ):0); 
+    bloque.collided(boton2, () => {bloque.remove();    boton2.img = 'texturas/bloques/boton 2.png'; escotilla.move(100, 'left', 2)})
     //piedraH.friction = 0;
 
-    erizo.vel.x = ()=> random([-2,2]);
+    erizo.vel.x = ()=> random([-2 ,2]);
     erizo.bounciness = 1;
     //erizo.collides(allSprites,(e)=>e.vel.x*=-1);
     erizo.collides(jugador.disparosFuego, (e,f)=>{e.remove();f.remove();})
@@ -115,6 +117,16 @@ code = () => {
         estado++;
         power2.remove();
     }
+
+    if(bloque.collides(jugador)&&jugador.elemento == "aire"){
+        bloque.collider = "kinetic";
+        bloque.move(40 * jugador.mirandoHacia, "rigth", 2);
+    }else if(jugador.elemento == "agua"||jugador.elemento == "fuego"||jugador.elemento == "electricidad"){
+        bloque.collider = "static";
+    }else{
+        bloque.collider = "dynamic";
+    }
+    
     erizo.vel.y=-0.2;
 }
 
