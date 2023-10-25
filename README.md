@@ -43,7 +43,6 @@ Contar con:
 **-300MB de disco**
 **-paciencias**
 
-
 Este juego fue desarrollado por:
 **Cipriano Tomas**
 **Paris Nicolas**
