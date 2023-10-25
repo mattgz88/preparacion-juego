@@ -3,13 +3,13 @@ W       --> Saltar
 A/D     --> Caminar
 Q       --> Habilidad especial
 1/2/3/4 --> fuego, agua, aire, electricidad
-ESPACIO --> Disparar
+ESPACIO --> Disparar/interactuar
 
 Mecanicas:
--Fuego: Quemar madera, Matar enemigos de agua/hielo
+-Fuego: Quemar madera, Matar enemigos de agua/hielo.
 -Agua: Hacer daño a enemigos de fuego, Transformarse en gota(Desarrollo)
--Aire: Más rapido, Mover bloques, Transformarse en viento
--Electricidad (Jugador en desarrollo)
+-Aire: Más rapido, Mover bloques, Transformarse en viento.
+-Electricidad: Puede activar ciertos mecanismos simpre y cuando este en contacto con los mismos.
 
 
 Datos Tecnicos:
@@ -29,4 +29,10 @@ El juego esta modularizado en varios archivos permitiendo mejor escalarizacion d
             Precarga los diferentes bloques que se usaran en los niveles
     -Niveles:
         Todos los niveles del juego más el menu de inicio
+
+Datos de Lore:
+
+El juego es un plataformero en donde nuestro personaje emprendra una aventura por diversos biomas en donde tendra que superar una variedad de pruebas y asi poder dominar los 4 elementos 🔥⚡💧🍃.
+
+
         
