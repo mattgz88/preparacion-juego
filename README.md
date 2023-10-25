@@ -34,5 +34,17 @@ Datos de Lore:
 
 El juego es un plataformero en donde nuestro personaje emprendra una aventura por diversos biomas en donde tendra que superar una variedad de pruebas y asi poder dominar los 4 elementos 🔥⚡💧🍃.
 
+Recomendaciones generales:
+Contar con: 
+-GTX 1050TI o superior
+-8GB RAM
+-Windows 7/10/11
+-300MB de disco
+-paciencias
 
-        
+
+Este juego fue desarrollado por:
+Cipriano Tomas 
+Paris Nicolas
+Ramos Lucas
+Guzmán Matías
