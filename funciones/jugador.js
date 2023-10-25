@@ -71,10 +71,10 @@ function ponerAnimacion(num, esMov = false){
 //Cambia de elemento
 function checkElements() {
     if (jugador.energia > 40) {
-        if (kb.presses('1')) configFuego();
-        else if (kb.presses('2')) configAgua();
-        else if (kb.presses('3')) configAire();
-        else if (kb.presses('4')) configElectricidad();
+        if (kb.pressing('1')>= 9) configFuego();
+        else if (kb.pressing('2')>= 9) configAgua();
+        else if (kb.pressing('3')>= 9 && estado > 0) configAire();
+        else if (kb.pressing('4')>= 9 && estado > 1) configElectricidad();
     }
 }
 

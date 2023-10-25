@@ -6,7 +6,7 @@ let sprites_fuego = [];
 let sprites_aire = [];
 let sprites_electricidad = [];
 
-function preload(){
+function preload() {
     sprites_fuego[0] = loadImage('./texturas/sprite_fuego/Sprite_fuego.png');
     sprites_fuego[1] = loadImage('./texturas/sprite_fuego/Sprite_fuego_tiro.png');
     sprites_fuego[2] = loadImage('./texturas/sprite_fuego/Sprite_fuego_corriendo.gif');
@@ -42,14 +42,14 @@ function setup() {
 
 function draw() {
     clear();
-    if(gameOver == false){
+    if (gameOver == false) {
         niveles[nivel].draw();
-        if(nivel != 0){
+        if (nivel != 0) {
             mostrarPropiedades();
         }
     }
-    else{
+    else {
         mostrarEstadisticas();
     }
-    
+
 }
