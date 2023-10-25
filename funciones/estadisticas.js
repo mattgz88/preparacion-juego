@@ -1,7 +1,7 @@
 let tiempo = 0;
 let tiempoInicial = 0;
 let estrellas = 3;
-let duracionDeNiveles = 300000;
+let duracionDeNiveles = 40000;
 
 //setInterval(()=>{tiempo++}, 100);
 
@@ -24,7 +24,7 @@ function mostrarPropiedades(){
     switch (jugador.elemento){
         case "fuego": relleno = "red"; break;
         case "agua": relleno = "blue"; break;
-        case "aire": relleno = "white"; break;
+        case "aire": relleno = "gray"; break;
         case "electricidad": relleno = "purple"; break;
     }
     fill(relleno);
@@ -32,16 +32,16 @@ function mostrarPropiedades(){
     text(jugador.elemento, 180, 90);
 
     // Título
-    textSize(24);
+    textSize(40);
     textAlign(CENTER);
     fill(0);
-    text("Nivel "+ nivel, width / 2, 30);
+    text("Nivel "+ nivel, width / 2, 50);
 
     // Tiempo
-    tiempo = (duracionDeNiveles - (millis() - tiempoInicial))/60000; // Convierte el tiempo en segundos
+    tiempo = (duracionDeNiveles - (millis() - tiempoInicial))/1000; // Convierte el tiempo en segundos
     fill(0);
     textAlign(RIGHT);
-    text("Tiempo: " + nf(tiempo, 1, 1) + "min", width - 10, 30);
+    text(nf(tiempo, 1, 1) + "seg", width - 20, 50);
     
     if(tiempo < (duracionDeNiveles/3)*2){
         estrellas = 2;

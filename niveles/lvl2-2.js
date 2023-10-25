@@ -5,7 +5,7 @@
 vars = [
     "piedra",
     "bloque",
-    "boton",
+    "boton2",
     "escotilla",
     "erizo",
     "hielo",
@@ -18,48 +18,28 @@ vars = [
 values = [
     undefined,
     undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
-    undefined,
+
 ];
 
 //Limpiar elementos
 reset = () => {
-    piedra.remove();
     bloque.remove();
-    boton.remove();
     escotilla.remove();
-    erizo.remove();
-    hielo.remove();
-    pinchos1.remove();
-    pinchos2.remove();
-    pinchos.remove();
-    power2.remove();
-    salida.remove();
+    mapa.remove();
 };
 
 //Setup del nivel
 init = () => {
-    background(200);
+
     iniciarJugador(100, 100);
 
     escotilla = new Sprite();
     escotilla.width = 206;
     escotilla.height = 40;
-    escotilla.x = 133;            //133
+    escotilla.x = 133;            
     escotilla.y = 302;
-
-    piedra = new Group();
-    piedra.w = 40;
-    piedra.h = 40;
-    piedra.tile = "#";
-    piedra.collider = "static";
+//    escotilla.img = 'texturas/bloques/escotilla.png';
+    escotilla.scale = 1;
 
     bloque = new Sprite();
     bloque.w = 40;
@@ -68,65 +48,32 @@ init = () => {
     bloque.y = 260;
     bloque.tile = "+";
     bloque.collider = "kinetic";
+    bloque.img = 'texturas/bloques/bloque_acero.png';
+    bloque.scale = 1.4;
 
-    boton = new Group();
-    boton.w = 10;
-    boton.h = 40;
-    boton.tile = "|";
-    boton.collider = "static";
+    boton2 = new Group();
+    boton2.w = 10;
+    boton2.h = 40;
+    boton2.tile = "B";
+    boton2.collider = "static";
+    boton2.img = 'texturas/bloques/boton 1.png';
+    boton2.scale = 1.4;
 
-    erizo = new Group();
-    erizo.w = 25;
-    erizo.h = 25;
-    erizo.tile = "e";
 
-    hielo = new Group();
-    hielo.w = 40;
-    hielo.h = 40;
-    hielo.tile = "H";
-    hielo.collider = "static";
-
-    pinchos1 = new Group();
-    pinchos1.w = 20;
-    pinchos1.h = 40;
-    pinchos1.tile = "<";
-    pinchos1.collider = "static";
-
-    pinchos2 = new Group();
-    pinchos2.w = 20;
-    pinchos2.h = 40;
-    pinchos2.tile = ">";
-    pinchos2.collider = "static";
-
-    pinchos = new Group();
-    pinchos.w = 40;
-    pinchos.h = 10;
-    pinchos.tile = "^";
-    pinchos.collider = "static";
-
-    power2 = new Group();
-    power2.r = 10;
-    power2.tile = "@";
-
-    salida = new Group();
-    salida.w = 40;
-    salida.h = 40;
-    salida.tile = "s";
-    salida.collider = "static";
 
     mapa = new Tiles(
         [
-            "###........#########",
-            "###........|########",
-            ".....###############",
-            "#.................##",
-            "#.......e...e.....##",
-            "###############HH###",
-            "###>.............<##",
-            "###>..e..........<##",
-            "####HH##############",
-            "###....^^^..^^^..@.s",
-            "####################",
+            "&&&........&&&&&&&&&",
+            "&&&......+.B&&&&&&&&",
+            ".....&&&&&&&&&&&&&&&",
+            "&.................&&",
+            "&...........e.....&&",
+            "&&&&&&&&&&&&&&&HH&&&",
+            "&&&>.............<&&",
+            "&&&>..e.e........<&&",
+            "&&&&HH&&&&&&&&&&&&&&",
+            "&&&..............$.s",
+            "&&&&&&&^^^&&^^^&&&&&",
         ],
         50,
         220,
@@ -136,11 +83,18 @@ init = () => {
 
     hielo.collides(jugador, (h,j)=> jugador.elemento == "fuego" ? h.remove():0);
     bloque.collided(jugador, (h,j)=> jugador.elemento == "aire" ? bloque.move(40 * jugador.mirandoHacia, 'rigth', 2 ):0); 
-    bloque.overlaps(boton, () => {bloque.remove(); boto.remove(); escotilla.move(100, 'left', 2)})
+    bloque.overlaps(boton2, () => {bloque.remove(); escotilla.move(100, 'left', 2)})
+    //piedraH.friction = 0;
+
+    erizo.vel.x = ()=> random([-2,2]);
+    erizo.bounciness = 1;
+    //erizo.collides(allSprites,(e)=>e.vel.x*=-1);
+    erizo.collides(jugador.disparosFuego, (e,f)=>{e.remove();f.remove();})
 };
 
 //Draw del nivel
 code = () => {
+    background(Montaña_sombria);
     jugador.renderizar();
     if (jugador.collides(salida)) {
         terminarNivel(true);
@@ -154,23 +108,14 @@ code = () => {
     if (jugador.collides(pinchos2)) {
         terminarNivel(false);
     }
-
-    if(jugador.y>260){
-        erizoAtack();
+    if(jugador.collides(erizo)){
+        jugador.vida -= 100;
     }
     if(jugador.collides(power2)){
         estado++;
         power2.remove();
     }
-    
-        
-
-
-};
-
-async function erizoAtack() {
-	await erizo.moveTo(player.x, erizo.y, 3);
-
+    erizo.vel.y=-0.2;
 }
 
 //Añadir nivel

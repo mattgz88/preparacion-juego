@@ -4,7 +4,7 @@ let pasarAgua = true;
 let estado = 0;
 
 function iniciarJugador(x, y) {
-    jugador = new Sprite(x, y, 180, 360);
+    jugador = new Sprite(x, y, 180, 350);
     jugador.scale = 0.16;
     jugador.rotationLock = true;
     jugador = Object.assign(jugador, {
@@ -16,6 +16,7 @@ function iniciarJugador(x, y) {
         puedeDisparar: true,
         esperaCarga: false,
         puedeSaltar: true,
+        usarAnimacion: true,
         mirandoHacia: 1, //1 derecha, 2 izquierda
         disparosFuego: new Group(),
         disparosAgua: new Group(),
@@ -47,6 +48,26 @@ function iniciarJugador(x, y) {
     }, 40);
 }
 
+function ponerAnimacion(num, esMov = false){
+    if(jugador.usarAnimacion || !esMov){
+        if(!(esMov && !jugador.puedeSaltar)){
+            switch(jugador.elemento){
+                case "fuego":
+                    jugador.img = sprites_fuego[num]; break;
+                case "agua":
+                    jugador.img = sprites_agua[num]; break;
+                case "aire":
+                    jugador.img = sprites_aire[num]; break;
+                case "electricidad":
+                    jugador.img = sprites_electricidad[num]; break;
+                default:
+                    console.log("No mano tu estas re loco")
+            }
+        }
+    }
+}
+
+
 //Cambia de elemento
 function checkElements() {
     if (jugador.energia > 40) {
@@ -64,7 +85,10 @@ function checkMovement() {
 
         //Si no esta en modo viento espera para saltar
         if((jugador.elemento == "aire" && !formaOriginal) == false){
-            jugador.activarPor("puedeSaltar", 850, false);
+            //jugador.activarPor("puedeSaltar", 850, false);
+            jugador.puedeSaltar = false;
+            jugador.activarPor("usarAnimacion", 400, false);
+            ponerAnimacion(1);
         }
     }
 
@@ -80,17 +104,20 @@ function checkMovement() {
         jugador.vel.x = jugador.velocidadX*-1;
         jugador.mirandoHacia = -1;
         jugador.mirror.x = true;
-        jugador.img = animaciones_agua[1];
+        ponerAnimacion(2, true)
     } 
     else if (kb.pressing('right')) {
         jugador.vel.x = jugador.velocidadX;
         jugador.mirandoHacia = 1;
         jugador.mirror.x = false;
-        jugador.img = animaciones_agua[1];
+        ponerAnimacion(2, true);
     } 
     else {
         jugador.vel.x = 0;
-        jugador.img = spr_jugador_agua;
+        ponerAnimacion(0, true)
+    }
+    if(jugador.collides(allSprites)){
+        jugador.puedeSaltar = true;
     }
 }
 
@@ -106,6 +133,8 @@ function controlStatus() {
             jugador.esperaCarga = true;
             jugador.disparar();
             jugador.activarPor("puedeDisparar", jugador.tiempoDisparo, false);
+            jugador.activarPor("usarAnimacion", 200, false);
+            ponerAnimacion(1);
         }
     }
     if (kb.released(' ')) {
@@ -119,6 +148,7 @@ function controlStatus() {
     }
     if(jugador.elemento == "aire" && !formaOriginal){
         jugador.viento.map((e)=>e.moveTowards(jugador, 0.05));
+        circle(jugador.x, jugador.y, 10)
     }
     ////---------------////
 
@@ -134,7 +164,8 @@ function configFuego() {
     jugador.energia -= 20;
     jugador.velocidadX = 2;
     jugador.velocidadY = -5;
-    jugador.img = spr_jugador_fuego;
+    jugador.activarPor("usarAnimacion", 800, false);
+    ponerAnimacion(3);
 
     //jugador.img;
 
@@ -159,7 +190,9 @@ function configAgua() {
     jugador.energia -= 20;
     jugador.velocidadX = 2;
     jugador.velocidadY = -5;
-    jugador.img = spr_jugador_agua;
+    jugador.activarPor("usarAnimacion", 800, false);
+    ponerAnimacion(3);
+
 
     jugador.disparar = () => {
         jugador.energia--;
@@ -197,7 +230,8 @@ function configAire() {
     jugador.energia -= 20;
     jugador.velocidadX = 5;
     jugador.velocidadY = -7;
-    jugador.img = spr_jugador_aire;
+    jugador.activarPor("usarAnimacion", 800, false);
+    ponerAnimacion(3);
 
     jugador.disparar = () => {
         //jugador.energia--;
@@ -228,14 +262,17 @@ function configAire() {
             jugador.velocidadX = 5
             jugador.velocidadY = -5
 
+            jugador.puedeSaltar = true;
+
             setTimeout(() => {
                 // original
                 jugador.visible = true;
                 jugador.collider = 'd';
                 formaOriginal = true;
+                jugador.rotationLock = true;
                 jugador.velocidadX = 2;
                 jugador.velocidadY = -5;
-            }, 3000);
+            }, 2000);
             formaOriginal = false;
         }
     }
@@ -245,5 +282,22 @@ function configAire() {
 function configElectricidad() {
     jugador.elemento = "electricidad";
     jugador.energia -= 20;
-    jugador.img = spr_jugador_electricidad;
+    jugador.activarPor("usarAnimacion", 800, false);
+    ponerAnimacion(3);
+
+    jugador.disparar = () => {
+        jugador.energia-=10;
+        let rayo;
+        rayo = new Sprite(jugador.x + 30 * jugador.mirandoHacia, jugador.y);
+        rayo.d = 5;
+        rayo.life = 70;
+        rayo.color = "white";
+        rayo.vel.x = 10;
+        rayo.bounciness = 0.7;
+        rayo.tiempoDisparo = 10;
+        rayo.collides(allSprites, (e)=>{for(let i=0; i<10; i++) {let a; a = new Sprite(e.x, e.y); a.d=2;a.life=10;a.bounciness=3}; e.remove()})
+    }
+
+    jugador.cambiarForma = () =>{}
+    
 }

@@ -15,9 +15,12 @@ init = () => {
 
 	floor = new Sprite(width/2, height-50, width, 5, 'static');
 
-    enemy = new Sprite(width/2+200, height-100);
+    enemy = new Group();
     enemy.d = 40;
     enemy.vida = 100;
+    enemy.img = 'texturas/bloques/fueguin.png';
+    enemy.scale = 2.2;
+    enemy.rotationLock = true;
     enemy.collides(jugador,()=>{
         jugador.vida-=50;
     })
@@ -25,7 +28,11 @@ init = () => {
         disp.remove();
         enemy.vida -= 5;
     })
-    
+    enemy.collides(jugador.disparosAgua, (e,f)=>{e.remove();f.remove();})
+    while (enemy.length < 3) {
+		let enemys = new enemy.Sprite();
+		enemys.x = (enemy.length * 200)+1000;
+	}
 }
 
 code = () => {

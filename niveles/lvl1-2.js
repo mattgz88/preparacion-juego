@@ -1,95 +1,80 @@
-let piso;
-
-vars = ["ramas","boton","bloque", "mapa", "power"]
-values = [undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined]
+vars = [];
+values = [];
 
 //Limpiar elementos
 reset = () => {
-    piso.remove();
-    ramas.remove();
-    tronco.remove();
-    piedra.remove();
-    boton.remove();
-    power.remove();
     bloque.remove();
-    salida.remove();
     mapa.remove();
-}
+};
 
 //Setup del nivel
 init = () => {
-    background(200);
-    iniciarJugador(50, 100);
+    iniciarJugador(150, 330);
 
-    piso = new Sprite();
-    piso.width = 1500;
-    piso.height = 5;
-    piso.x = 400;
-    piso.y = 570;
-    piso.collider = "static";
-
-    ramas = new Group();
-    ramas.w = 40;
-    ramas.h = 40;
-    ramas.tile = "*";
-    ramas.collider = "static";
-    ramas.collides(jugador.disparosFuego, (r,f)=>{r.remove();f.remove();})
-
-    boton = new Group();
-    boton.w = 340;
-    boton.h = 320;
-    boton.tile = "-";
-    boton.collider = "static";
-    boton.img = 'texturas/bloques/placa de presion 1.png';
-    boton.scale = 0.14;
-
-    bloque = new Group();
-    bloque.w = 340;
-    bloque.h = 340;
+    bloque = new Sprite();
+    bloque.w = 30;
+    bloque.h = 30;
+    bloque.x = 200;
+    bloque.y = 342;
     bloque.tile = "+";
-    bloque.img = 'texturas/bloques/Bloque de acero.png';
-    bloque.scale = 0.14;
-
-    power = new Group();
-    power.r = 10;
-    power.tile = "@";
-    power.color = 'cyan'
+    bloque.collider = "kinetic";
+    bloque.img = "texturas/bloques/bloque_acero.png";
+    bloque.scale = 1.3;
 
     mapa = new Tiles(
         [
-            ".....................##",
-            "......+............####",
-            "#########........######",
+            "#######################",
+            "#....................##",
+            "#....................##",
+            "#..................####",
             "#########........######",
             "#########........######",
             "########.........######",
+            "########.........######",
             "#######..........o...##",
-            "#.....*..........o....s",
+            "#.....*..........o.....",
             "#.@...*........-.o....s",
+            "#######################",
         ],
         50,
         220,
         41,
         41
     );
-}
+
+    ramas.collides(jugador.disparosFuego, (r, f) => {
+        r.remove();
+        f.remove();
+    });
+    bloque.collided(jugador, (h, j) =>
+        jugador.elemento == "aire"
+            ? bloque.move(40 * jugador.mirandoHacia, "rigth", 2)
+            : 0
+    );
+
+    bloque.collided(boton, () => {
+        bloque.remove();
+        boton.img = 'texturas/bloques/placa de presion 2.png';
+    });
+};
 
 //Draw del nivel
 code = () => {
+    background(Gran_bosque_de_jura);
     jugador.renderizar();
-    if(jugador.collides(salida)){
+    if (jugador.collides(salida)) {
         terminarNivel(true);
     }
-    if(bloque.colliding(boton)){
-        boton.img = 'texturas/bloques/placa de precion 2.png';
+    if (bloque.colliding(boton)) {
+        boton.img = "texturas/bloques/placa de precion 2.png";
         tronco.remove();
         bloque.remove();
     }
-    if(jugador.collides(power)){
+    if (jugador.collides(power)) {
         estado++;
         power.remove();
     }
-}
+};
 
 //Añadir nivel
 niveles.push(new claseNivel(init, code, reset, vars, values));
