@@ -10,7 +10,7 @@ Mecanicas:
 **-Agua:** Hacer daño a enemigos de fuego, Transformarse en gota(Desarrollo)
 **-Aire:** Más rapido, Mover bloques, Transformarse en viento.
 **-Electricidad:** Puede activar ciertos mecanismos simpre y cuando este en contacto con los mismos.
-
+**GOD MODE:** Al activar esta funcion podras cambiar entre los 4 elementos en cualquier momento de la partida.
 
 Datos Tecnicos:
 
