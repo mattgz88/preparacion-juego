@@ -26,6 +26,7 @@ reset = () => {
     bloque.remove();
     escotilla.remove();
     mapa.remove();
+    boton2.img = 'texturas/bloques/boton 1.png';
 };
 
 //Setup del nivel
@@ -50,9 +51,9 @@ init = () => {
     bloque.collider = "kinetic";
     bloque.img = "texturas/bloques/bloque_acero.png";
     bloque.scale = 1.3;
-
     bloque.x = 400;
     bloque.y = 260;
+
     boton2 = new Group();
     boton2.w = 10;
     boton2.h = 40;

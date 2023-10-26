@@ -5,6 +5,7 @@ values = [];
 reset = () => {
     bloque.remove();
     mapa.remove();
+    boton.img = 'texturas/bloques/placa de presion 1.png';
 };
 
 //Setup del nivel
